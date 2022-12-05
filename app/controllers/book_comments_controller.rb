@@ -6,8 +6,10 @@ class BookCommentsController < ApplicationController
     comment.save
     redirect_back fallback_location: root_path
   end
-  # def destroy
-  # end
+  def destroy
+    BookComment.find(params[:id]).destroy
+    redirect_back fallback_location: root_path
+  end
 
   private
 
