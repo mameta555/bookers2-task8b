@@ -25,8 +25,8 @@
           <td class="favorite_btn_<%= @book.id %>">
           <%= render 'favorites/favorites', book: @book %>
           </td>
-          <td>
-            コメント数:<%= @book.book_comments.count %>
+          <td class="comments-count_<%= @book.id %>">
+            <%= render 'book_comments/count', book: @book %>
           </td>
         </tr>
       </table>
@@ -38,9 +38,6 @@
         <%= f.text_area :comment %><br>
         <%= f.submit "送信" %>
       <% end %>
-  <h1>test</h1>
-
-
     </div>
   </div>
 </div>

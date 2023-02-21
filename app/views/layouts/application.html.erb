@@ -8,9 +8,9 @@
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-  <body>
+  <body class="d-flex flex-column vh-100">
     <%= render 'layouts/header' %>
-      <main>
+      <main class="mb-auto">
         <p id="notice"><%= notice %></p>
         <%= yield %>
       </main>
