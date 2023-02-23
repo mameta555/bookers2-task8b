@@ -32,13 +32,13 @@
 
       <table class="table">
         <thead>
-        <tr>
-         <th>今週の投稿</th>
-         <th>先週の投稿</th>
-         <th>先週比</th>
-        </tr>
+          <tr>
+           <th>今週の投稿</th>
+           <th>先週の投稿</th>
+           <th>先週比</th>
+          </tr>
         </thead>
-         <tbody>
+        <tbody>
           <tr>
            <td><%= @this_week_book.count %></td>
            <td><%= @last_week_book.count %></td>
@@ -49,7 +49,7 @@
              　<%= (@the_week_before * 100).round %>%</td>
            <% end %>
            </tr>
-         </tbody>
+        </tbody>
       </table>
       <h2>7日間分の投稿数</h2>
       <table class="table">
@@ -72,43 +72,52 @@
           <td><%= @today_book.count %></td>
         </tr>
       </table>
-      <canvas id="myChart" width="300" height="100"> </canvas>
+      <canvas id="myChart"> </canvas>
     </div>
   </div>
 </div>
 
 <script>
-  var ctx = document.getElementById("myChart").getContext('2d');
-  var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ['6日前', '5日前', '4日前', '3日前', '2日前', '1日前', '今日'],
-            datasets: [{
-                label: "投稿数",
-                data: [<%= @books.created_6days_ago.count %>, <%= @books.created_5days_ago.count %>, <%= @books.created_4days_ago.count %>, <%= @books.created_3days_ago.count %>, <%= @books.created_2days_ago.count %>, <%= @yesterday_book.count %>, <%= @today_book.count%>],
-                borderColor: "rgba(0,0,255,1)",
-              backgroundColor: "rgba(0,0,0,0)"
-            }
-          ],
+  $(document).on('turbolinks:load', function() {
+    var ctx = document.getElementById("myChart")
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['6日前', '5日前', '4日前', '3日前', '2日前', '1日前', '今日'],
+        datasets: [
+          {
+            label: '投稿した本の数'
+            data: [
+              <%= @books.created_6days_ago.count %>,
+              <%= @books.created_5days_ago.count %>,
+              <%= @books.created_4days_ago.count %>,
+              <%= @books.created_3days_ago.count %>,
+              <%= @books.created_2days_ago.count %>,
+              <%= @yesterday_book.count %>,
+              <%= @today_book.count%>
+            ]
+            borderColor: "rgba(0,0,255,1)",
+            backgroundColor: "rgba(0,0,0,0)",
+            tension: 0.4
+          }
+        ],
+      },
+      options: {
+        title: {
+          display: true,
+          text: '7日間の投稿数の比較'
         },
-        options: {
-          title: {
-            display: true,
-            text: '7日間の投稿数の比較'
+        responsive: true,
+        scales: {
+          y: {
+            suggestedMin: 0,
+            suggestedMax: 10
+          }
+          x: {
+            stacked: true
           },
-          scales: {
-            yAxes: [{
-              ticks: {
-                suggestedMax: 10,
-                suggestedMin: 0,
-                stepSize: 1,
-                callback: function(value, index, values){
-                  return  value
-                }
-              }
-            }]
-          },
-        }
-      });
+        },
+      }
     });
+  });
 </script>
